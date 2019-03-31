@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class CarManufactorer {
+public class CarManufacturer {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

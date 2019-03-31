@@ -4,7 +4,7 @@ drop database if exists car_rent;
 
   use car_rent;
 
-  create table car_manufactorer (
+  create table car_manufacturer (
   	id bigint not null auto_increment,
   	name varchar(255) not null,
   	primary key(id)
@@ -16,11 +16,11 @@ drop database if exists car_rent;
   	primary key(id)
   );
 
-  create table car_manufactorer_car_model (
-  	car_manufactorer_id bigint not null,
+  create table car_manufacturer_car_model (
+  	car_manufacturer_id bigint not null,
   	car_model_id bigint not null,
-  	constraint primary key (car_manufactorer_id, car_model_id),
-  	constraint foreign key (car_manufactorer_id) references car_manufactorer (id),
+  	constraint primary key (car_manufacturer_id, car_model_id),
+  	constraint foreign key (car_manufacturer_id) references car_manufacturer (id),
   	constraint foreign key (car_model_id) references car_model (id)
   );
 
@@ -62,7 +62,7 @@ drop database if exists car_rent;
   );
 
 
-  insert into car_manufactorer (name) values
+  insert into car_manufacturer (name) values
   ('lada'),
   ('uaz'),
   ('niva'),
@@ -76,7 +76,7 @@ drop database if exists car_rent;
   ('chevrolet-niva'),
   ('gallardo');
 
-  insert into car_manufactorer_car_model (car_manufactorer_id, car_model_id) values
+  insert into car_manufacturer_car_model (car_manufacturer_id, car_model_id) values
   (1, 1),
   (2, 2),
   (3, 3),

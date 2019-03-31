@@ -7,8 +7,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.domru.model.CarManufactorer;
-import org.domru.repository.CarManufactorerRepository;
+import org.domru.model.CarManufacturer;
+import org.domru.repository.CarManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,44 +19,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/car-manufactorer")
-@Api(value = "car-manufactorer", description = "Контроллер для работы с производителями")
-public class CarManufactorerController {
+@RequestMapping("/car-manufacturer")
+@Api(value = "car-manufacturer", description = "Контроллер для работы с производителями")
+public class CarManufacturerController {
 
   @Autowired
-  CarManufactorerRepository carManufactorerRepository;
+  CarManufacturerRepository carManufacturerRepository;
 
   @GetMapping("")
   @ApiOperation(value = "получить всех производителей")
-  public List<CarManufactorer> findAll() {
-    return carManufactorerRepository.findAll();
+  public List<CarManufacturer> findAll() {
+    return carManufacturerRepository.findAll();
   }
 
   @PostMapping("")
   @ApiOperation(value = "создать производителя")
-  public CarManufactorer create(
+  public CarManufacturer create(
       @RequestBody
-      CarManufactorer carManufactorer
+      CarManufacturer carManufacturer
   ) {
-    carManufactorer.setId(null);
-    return carManufactorerRepository.save(carManufactorer);
+    carManufacturer.setId(null);
+    return carManufacturerRepository.save(carManufacturer);
   }
 
   /**
    * TODO.
-   * @param carManufactorer TODO
+   * @param carManufacturer TODO
    * @param response TODO
    * @return TODO
    */
   @PutMapping("")
   @ApiOperation(value = "обновить производителя")
-  public CarManufactorer update(
+  public CarManufacturer update(
       @RequestBody
-          CarManufactorer carManufactorer,
+          CarManufacturer carManufacturer,
       HttpServletResponse response
   ) {
-    if (carManufactorerRepository.findById(carManufactorer.getId()).isPresent()) {
-      return carManufactorerRepository.save(carManufactorer);
+    if (carManufacturerRepository.findById(carManufacturer.getId()).isPresent()) {
+      return carManufacturerRepository.save(carManufacturer);
     }
     response.setStatus(404);
     return null;
@@ -64,20 +64,20 @@ public class CarManufactorerController {
 
   /**
    * TODO.
-   * @param carManufactorer TODO
+   * @param carManufacturer TODO
    * @param response TODO
    * @return TODO
    */
   @DeleteMapping("")
   @ApiOperation(value = "удалить производителя")
-  public CarManufactorer delete(
+  public CarManufacturer delete(
       @RequestBody
-          CarManufactorer carManufactorer,
+          CarManufacturer carManufacturer,
       HttpServletResponse response
   ) {
-    if (carManufactorerRepository.findById(carManufactorer.getId()).isPresent()) {
-      carManufactorerRepository.delete(carManufactorer);
-      return carManufactorer;
+    if (carManufacturerRepository.findById(carManufacturer.getId()).isPresent()) {
+      carManufacturerRepository.delete(carManufacturer);
+      return carManufacturer;
     }
     response.setStatus(404);
     return null;
