@@ -43,6 +43,28 @@ public class RentalSessionController {
     return rentalSessionRepository.findByFilters(carId);
   }
 
+  @GetMapping("/getAverageSessionLength")
+  @ApiOperation(value = "получить среднее время аренды")
+  public Long getAverageSessionLength(
+      @RequestParam
+      @ApiParam(
+          name = "carManufacturerId",
+          required = true,
+          value = "идентфикатор производителя автомобиля",
+          example = "1"
+      )
+          Long carManufacturerId,
+      @RequestParam
+      @ApiParam(
+          name = "rentPointId",
+          required = true,
+          value = "идентфикатор точки аренды автомобиля",
+          example = "1"
+      )
+          Long rentPointId) {
+    return rentalSessionRepository.getAverageSessionLength(carManufacturerId, rentPointId);
+  }
+
   @PostMapping("")
   @ApiOperation(value = "создать сессию аренды")
   public RentalSession create(
