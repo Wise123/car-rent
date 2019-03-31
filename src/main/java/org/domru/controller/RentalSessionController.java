@@ -2,6 +2,7 @@ package org.domru.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,6 +32,15 @@ public class RentalSessionController {
   @ApiOperation(value = "получить все сессии аренды")
   public List<RentalSession> findAll() {
     return rentalSessionRepository.findAll();
+  }
+
+  @GetMapping("/findByFilters")
+  @ApiOperation(value = "получить все сессии аренды по фильтрам")
+  public List<RentalSession> findByFilters(
+      @RequestParam
+      @ApiParam(name = "carId", required = true, value = "идентфикатор автомобиля", example = "1")
+        Long carId) {
+    return rentalSessionRepository.findByFilters(carId);
   }
 
   @PostMapping("")
