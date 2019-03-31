@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,7 +31,20 @@ public class RentalSession {
   private LocalDate sessionStart;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate sessionEnd;
-  private Long startRentPointId;
-  private Long endRentPointId;
-  private Long renterId;
+
+  @ManyToOne
+  @JoinColumn(name = "startRentPointId")
+  RentPoint startRentPoint;
+
+  @ManyToOne
+  @JoinColumn(name = "endRentPointId")
+  RentPoint endRentPoint;
+
+  @ManyToOne
+  @JoinColumn(name = "renterId")
+  Renter renter;
+
+  @ManyToOne
+  @JoinColumn(name = "carId")
+  Car car;
 }
