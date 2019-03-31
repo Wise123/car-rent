@@ -40,7 +40,9 @@ drop database if exists car_rent;
 
   create table renter (
   	id bigint not null auto_increment,
-  	full_name varchar(255) not null,
+  	first_name varchar(255) not null,
+  	surname varchar(255) not null,
+  	patronymic varchar(255) not null,
   	primary key(id)
   );
 
@@ -97,11 +99,11 @@ drop database if exists car_rent;
   ('Комсомольский проспект 5'),
   ('Рязанская 7');
 
-  insert into renter (full_name) values
-  ('Иванов Иван Иванович'),
-  ('Сидоров Сидор Сидорович'),
-  ('Петров Петр Петрович'),
-  ('Андреев Андрей Андрееви');
+  insert into renter (surname, first_name, patronymic) values
+  ('Иванов', 'Иван', 'Иванович'),
+  ('Сидоров', 'Сидор', 'Сидорович'),
+  ('Петров', 'Петр', 'Петрович'),
+  ('Андреев', 'Андрей', 'Андрееви');
 
   insert into rental_session (
       session_start,
