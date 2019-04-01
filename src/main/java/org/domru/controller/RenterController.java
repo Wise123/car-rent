@@ -28,13 +28,9 @@ public class RenterController {
   @Autowired
   RenterRepository renterRepository;
 
-  /**
-   * TODO.
-   * @return TODO
-   */
   @GetMapping("")
   @ApiOperation(value = "получить всех арендаторов")
-  public List<RenterDto> findAll() {
+  List<RenterDto> findAll() {
     return renterRepository.findAll()
         .stream()
         .map(RenterDto::toDto)
@@ -43,7 +39,7 @@ public class RenterController {
 
   @PostMapping("")
   @ApiOperation(value = "создать арендатора")
-  public RenterDto create(
+  RenterDto create(
       @RequestBody
       @Valid
           RenterDto renter
@@ -52,15 +48,9 @@ public class RenterController {
     return RenterDto.toDto(renterRepository.save(renter.fromDto()));
   }
 
-  /**
-   * TODO.
-   * @param renter TODO
-   * @param response TODO
-   * @return TODO
-   */
   @PutMapping("")
   @ApiOperation(value = "обновить арендатора")
-  public RenterDto update(
+  RenterDto update(
       @RequestBody
       @Valid
           RenterDto renter,
@@ -73,15 +63,9 @@ public class RenterController {
     return null;
   }
 
-  /**
-   * TODO.
-   * @param renter TODO
-   * @param response TODO
-   * @return TODO
-   */
   @DeleteMapping("")
   @ApiOperation(value = "удалить арендатора")
-  public RenterDto delete(
+  RenterDto delete(
       @RequestBody
           RenterDto renter,
       HttpServletResponse response

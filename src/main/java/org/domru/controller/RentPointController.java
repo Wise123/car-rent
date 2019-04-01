@@ -28,13 +28,9 @@ public class RentPointController {
   @Autowired
   RentPointRepository rentPointRepository;
 
-  /**
-   * TODO.
-   * @return TODO
-   */
   @GetMapping("")
   @ApiOperation(value = "получить все точки")
-  public List<RentPointDto> findAll() {
+  List<RentPointDto> findAll() {
     return rentPointRepository.findAll()
         .stream()
         .map(RentPointDto::toDto)
@@ -43,7 +39,7 @@ public class RentPointController {
 
   @PostMapping("")
   @ApiOperation(value = "создать точку")
-  public RentPointDto create(
+  RentPointDto create(
       @RequestBody
       @Valid
           RentPointDto rentPoint
@@ -52,15 +48,9 @@ public class RentPointController {
     return RentPointDto.toDto(rentPointRepository.save(rentPoint.fromDto()));
   }
 
-  /**
-   * TODO.
-   * @param rentPoint TODO
-   * @param response TODO
-   * @return TODO
-   */
   @PutMapping("")
   @ApiOperation(value = "обновить модель")
-  public RentPointDto update(
+  RentPointDto update(
       @RequestBody
       @Valid
           RentPointDto rentPoint,
@@ -73,15 +63,9 @@ public class RentPointController {
     return null;
   }
 
-  /**
-   * TODO.
-   * @param rentPoint TODO
-   * @param response TODO
-   * @return TODO
-   */
   @DeleteMapping("")
   @ApiOperation(value = "удалить модель")
-  public RentPointDto delete(
+  RentPointDto delete(
       @RequestBody
           RentPointDto rentPoint,
       HttpServletResponse response

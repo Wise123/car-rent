@@ -28,13 +28,9 @@ public class CarManufacturerController {
   @Autowired
   CarManufacturerRepository carManufacturerRepository;
 
-  /**
-   * TODO.
-   * @return TODO
-   */
   @GetMapping("")
   @ApiOperation(value = "получить всех производителей")
-  public List<CarManufacturerDto> findAll() {
+  List<CarManufacturerDto> findAll() {
     return carManufacturerRepository.findAll()
         .stream()
         .map(CarManufacturerDto::toDto)
@@ -43,7 +39,7 @@ public class CarManufacturerController {
 
   @PostMapping("")
   @ApiOperation(value = "создать производителя")
-  public CarManufacturerDto create(
+  CarManufacturerDto create(
       @RequestBody
       @Valid
           CarManufacturerDto carManufacturer
@@ -52,15 +48,9 @@ public class CarManufacturerController {
     return CarManufacturerDto.toDto(carManufacturerRepository.save(carManufacturer.fromDto()));
   }
 
-  /**
-   * TODO.
-   * @param carManufacturer TODO
-   * @param response TODO
-   * @return TODO
-   */
   @PutMapping("")
   @ApiOperation(value = "обновить производителя")
-  public CarManufacturerDto update(
+  CarManufacturerDto update(
       @RequestBody
       @Valid
           CarManufacturerDto carManufacturer,
@@ -73,15 +63,9 @@ public class CarManufacturerController {
     return null;
   }
 
-  /**
-   * TODO.
-   * @param carManufacturer TODO
-   * @param response TODO
-   * @return TODO
-   */
   @DeleteMapping("")
   @ApiOperation(value = "удалить производителя")
-  public CarManufacturerDto delete(
+  CarManufacturerDto delete(
       @RequestBody
           CarManufacturerDto carManufacturer,
       HttpServletResponse response

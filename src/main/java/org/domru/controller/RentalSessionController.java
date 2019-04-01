@@ -31,27 +31,18 @@ public class RentalSessionController {
   @Autowired
   RentalSessionRepository rentalSessionRepository;
 
-  /**
-   * TODO.
-   * @return TODO
-   */
   @GetMapping("")
   @ApiOperation(value = "получить все сессии аренды")
-  public List<RentalSessionDto> findAll() {
+  List<RentalSessionDto> findAll() {
     return rentalSessionRepository.findAll()
         .stream()
         .map(RentalSessionDto::toDto)
         .collect(Collectors.toList());
   }
 
-  /**
-   * TODO.
-   * @param carId TODO
-   * @return TODO
-   */
   @GetMapping("/findByFilters")
   @ApiOperation(value = "получить все сессии аренды по фильтрам")
-  public List<RentalSessionDto> findByFilters(
+  List<RentalSessionDto> findByFilters(
       @RequestParam
       @ApiParam(name = "carId", required = true, value = "идентфикатор автомобиля", example = "1")
         Long carId) {
@@ -63,7 +54,7 @@ public class RentalSessionController {
 
   @GetMapping("/getAverageSessionLength")
   @ApiOperation(value = "получить среднее время аренды")
-  public Long getAverageSessionLength(
+  Long getAverageSessionLength(
       @RequestParam
       @ApiParam(
           name = "carManufacturerId",
@@ -94,15 +85,9 @@ public class RentalSessionController {
     return RentalSessionDto.toDto(rentalSessionRepository.save(rentalSession.fromDto()));
   }
 
-  /**
-   * TODO.
-   * @param rentalSession TODO
-   * @param response TODO
-   * @return TODO
-   */
   @PutMapping("")
   @ApiOperation(value = "обновить сессию аренды")
-  public RentalSessionDto update(
+  RentalSessionDto update(
       @RequestBody
       @Valid
           RentalSessionDto rentalSession,
@@ -115,15 +100,9 @@ public class RentalSessionController {
     return null;
   }
 
-  /**
-   * TODO.
-   * @param rentalSession TODO
-   * @param response TODO
-   * @return TODO
-   */
   @DeleteMapping("")
   @ApiOperation(value = "удалить сессию аренды")
-  public RentalSessionDto delete(
+  RentalSessionDto delete(
       @RequestBody
           RentalSessionDto rentalSession,
       HttpServletResponse response

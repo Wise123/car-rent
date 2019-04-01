@@ -28,13 +28,9 @@ public class CarModelController {
   @Autowired
   CarModelRepository carModelRepository;
 
-  /**
-   * TODO.
-   * @return TODO
-   */
   @GetMapping("")
   @ApiOperation(value = "получить все модели")
-  public List<CarModelDto> findAll() {
+  List<CarModelDto> findAll() {
     return carModelRepository.findAll()
         .stream()
         .map(CarModelDto::toDto)
@@ -43,7 +39,7 @@ public class CarModelController {
 
   @PostMapping("")
   @ApiOperation(value = "создать модель")
-  public CarModelDto create(
+  CarModelDto create(
       @RequestBody
       @Valid
           CarModelDto carModel
@@ -52,15 +48,9 @@ public class CarModelController {
     return CarModelDto.toDto(carModelRepository.save(carModel.fromDto()));
   }
 
-  /**
-   * TODO.
-   * @param carModel TODO
-   * @param response TODO
-   * @return TODO
-   */
   @PutMapping("")
   @ApiOperation(value = "обновить модель")
-  public CarModelDto update(
+  CarModelDto update(
       @RequestBody
       @Valid
           CarModelDto carModel,
@@ -73,15 +63,9 @@ public class CarModelController {
     return null;
   }
 
-  /**
-   * TODO.
-   * @param carModel TODO
-   * @param response TODO
-   * @return TODO
-   */
   @DeleteMapping("")
   @ApiOperation(value = "удалить модель")
-  public CarModelDto delete(
+  CarModelDto delete(
       @RequestBody
           CarModelDto carModel,
       HttpServletResponse response
