@@ -4,10 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.domru.model.Renter;
+import org.domru.dto.RenterDto;
 import org.domru.repository.RenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,20 +27,27 @@ public class RenterController {
   @Autowired
   RenterRepository renterRepository;
 
+  /**
+   * TODO.
+   * @return TODO
+   */
   @GetMapping("")
   @ApiOperation(value = "получить всех арендаторов")
-  public List<Renter> findAll() {
-    return renterRepository.findAll();
+  public List<RenterDto> findAll() {
+    return renterRepository.findAll()
+        .stream()
+        .map(RenterDto::toDto)
+        .collect(Collectors.toList());
   }
 
   @PostMapping("")
   @ApiOperation(value = "создать арендатора")
-  public Renter create(
+  public RenterDto create(
       @RequestBody
-          Renter renter
+          RenterDto renter
   ) {
     renter.setId(null);
-    return renterRepository.save(renter);
+    return RenterDto.toDto(renterRepository.save(renter.fromDto()));
   }
 
   /**
@@ -50,13 +58,13 @@ public class RenterController {
    */
   @PutMapping("")
   @ApiOperation(value = "обновить арендатора")
-  public Renter update(
+  public RenterDto update(
       @RequestBody
-          Renter renter,
+          RenterDto renter,
       HttpServletResponse response
   ) {
     if (renterRepository.findById(renter.getId()).isPresent()) {
-      return renterRepository.save(renter);
+      return RenterDto.toDto(renterRepository.save(renter.fromDto()));
     }
     response.setStatus(404);
     return null;
@@ -70,13 +78,13 @@ public class RenterController {
    */
   @DeleteMapping("")
   @ApiOperation(value = "удалить арендатора")
-  public Renter delete(
+  public RenterDto delete(
       @RequestBody
-          Renter renter,
+          RenterDto renter,
       HttpServletResponse response
   ) {
     if (renterRepository.findById(renter.getId()).isPresent()) {
-      renterRepository.delete(renter);
+      renterRepository.delete(renter.fromDto());
       return renter;
     }
     response.setStatus(404);

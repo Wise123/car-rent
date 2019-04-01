@@ -4,10 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.domru.model.Car;
+import org.domru.dto.CarDto;
 import org.domru.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,20 +27,27 @@ public class CarController {
   @Autowired
   CarRepository carRepository;
 
+  /**
+   * TODO.
+   * @return TODO
+   */
   @GetMapping("")
-  @ApiOperation(value = "получить все модели")
-  public List<Car> findAll() {
-    return carRepository.findAll();
+  @ApiOperation(value = "получить все автомобили")
+  public List<CarDto> findAll() {
+    return carRepository.findAll()
+        .stream()
+        .map(CarDto::toDto)
+        .collect(Collectors.toList());
   }
 
   @PostMapping("")
-  @ApiOperation(value = "создать модель")
-  public Car create(
+  @ApiOperation(value = "создать автомобиль")
+  public CarDto create(
       @RequestBody
-          Car car
+          CarDto car
   ) {
     car.setId(null);
-    return carRepository.save(car);
+    return CarDto.toDto(carRepository.save(car.fromDto()));
   }
 
   /**
@@ -49,14 +57,14 @@ public class CarController {
    * @return TODO
    */
   @PutMapping("")
-  @ApiOperation(value = "обновить модель")
-  public Car update(
+  @ApiOperation(value = "обновить автомобиль")
+  public CarDto update(
       @RequestBody
-          Car car,
+          CarDto car,
       HttpServletResponse response
   ) {
     if (carRepository.findById(car.getId()).isPresent()) {
-      return carRepository.save(car);
+      return CarDto.toDto(carRepository.save(car.fromDto()));
     }
     response.setStatus(404);
     return null;
@@ -69,14 +77,14 @@ public class CarController {
    * @return TODO
    */
   @DeleteMapping("")
-  @ApiOperation(value = "удалить модель")
-  public Car delete(
+  @ApiOperation(value = "удалить автомобиль")
+  public CarDto delete(
       @RequestBody
-          Car car,
+          CarDto car,
       HttpServletResponse response
   ) {
     if (carRepository.findById(car.getId()).isPresent()) {
-      carRepository.delete(car);
+      carRepository.delete(car.fromDto());
       return car;
     }
     response.setStatus(404);

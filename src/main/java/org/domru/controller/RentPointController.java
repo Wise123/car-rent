@@ -4,10 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.domru.model.RentPoint;
+import org.domru.dto.RentPointDto;
 import org.domru.repository.RentPointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,20 +27,27 @@ public class RentPointController {
   @Autowired
   RentPointRepository rentPointRepository;
 
+  /**
+   * TODO.
+   * @return TODO
+   */
   @GetMapping("")
   @ApiOperation(value = "получить все точки")
-  public List<RentPoint> findAll() {
-    return rentPointRepository.findAll();
+  public List<RentPointDto> findAll() {
+    return rentPointRepository.findAll()
+        .stream()
+        .map(RentPointDto::toDto)
+        .collect(Collectors.toList());
   }
 
   @PostMapping("")
   @ApiOperation(value = "создать точку")
-  public RentPoint create(
+  public RentPointDto create(
       @RequestBody
-          RentPoint rentPoint
+          RentPointDto rentPoint
   ) {
     rentPoint.setId(null);
-    return rentPointRepository.save(rentPoint);
+    return RentPointDto.toDto(rentPointRepository.save(rentPoint.fromDto()));
   }
 
   /**
@@ -50,13 +58,13 @@ public class RentPointController {
    */
   @PutMapping("")
   @ApiOperation(value = "обновить модель")
-  public RentPoint update(
+  public RentPointDto update(
       @RequestBody
-          RentPoint rentPoint,
+          RentPointDto rentPoint,
       HttpServletResponse response
   ) {
     if (rentPointRepository.findById(rentPoint.getId()).isPresent()) {
-      return rentPointRepository.save(rentPoint);
+      return RentPointDto.toDto(rentPointRepository.save(rentPoint.fromDto()));
     }
     response.setStatus(404);
     return null;
@@ -70,13 +78,13 @@ public class RentPointController {
    */
   @DeleteMapping("")
   @ApiOperation(value = "удалить модель")
-  public RentPoint delete(
+  public RentPointDto delete(
       @RequestBody
-          RentPoint rentPoint,
+          RentPointDto rentPoint,
       HttpServletResponse response
   ) {
     if (rentPointRepository.findById(rentPoint.getId()).isPresent()) {
-      rentPointRepository.delete(rentPoint);
+      rentPointRepository.delete(rentPoint.fromDto());
       return rentPoint;
     }
     response.setStatus(404);

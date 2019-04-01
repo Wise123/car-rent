@@ -34,5 +34,5 @@ public class CarModel {
       joinColumns = @JoinColumn(name = "car_model_id"),
       inverseJoinColumns = @JoinColumn(name = "car_manufacturer_id")
   )
-  List<CarManufacturer> carManufacturers;
+  private List<CarManufacturer> carManufacturers;
 }

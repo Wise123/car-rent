@@ -4,10 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.domru.model.CarModel;
+import org.domru.dto.CarModelDto;
 import org.domru.repository.CarModelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,20 +27,27 @@ public class CarModelController {
   @Autowired
   CarModelRepository carModelRepository;
 
+  /**
+   * TODO.
+   * @return TODO
+   */
   @GetMapping("")
   @ApiOperation(value = "получить все модели")
-  public List<CarModel> findAll() {
-    return carModelRepository.findAll();
+  public List<CarModelDto> findAll() {
+    return carModelRepository.findAll()
+        .stream()
+        .map(CarModelDto::toDto)
+        .collect(Collectors.toList());
   }
 
   @PostMapping("")
   @ApiOperation(value = "создать модель")
-  public CarModel create(
+  public CarModelDto create(
       @RequestBody
-      CarModel carModel
+      CarModelDto carModel
   ) {
     carModel.setId(null);
-    return carModelRepository.save(carModel);
+    return CarModelDto.toDto(carModelRepository.save(carModel.fromDto()));
   }
 
   /**
@@ -50,13 +58,13 @@ public class CarModelController {
    */
   @PutMapping("")
   @ApiOperation(value = "обновить модель")
-  public CarModel update(
+  public CarModelDto update(
       @RequestBody
-          CarModel carModel,
+          CarModelDto carModel,
       HttpServletResponse response
   ) {
     if (carModelRepository.findById(carModel.getId()).isPresent()) {
-      return carModelRepository.save(carModel);
+      return CarModelDto.toDto(carModelRepository.save(carModel.fromDto()));
     }
     response.setStatus(404);
     return null;
@@ -70,13 +78,13 @@ public class CarModelController {
    */
   @DeleteMapping("")
   @ApiOperation(value = "удалить модель")
-  public CarModel delete(
+  public CarModelDto delete(
       @RequestBody
-          CarModel carModel,
+          CarModelDto carModel,
       HttpServletResponse response
   ) {
     if (carModelRepository.findById(carModel.getId()).isPresent()) {
-      carModelRepository.delete(carModel);
+      carModelRepository.delete(carModel.fromDto());
       return carModel;
     }
     response.setStatus(404);

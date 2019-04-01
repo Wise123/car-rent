@@ -4,10 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.domru.model.CarManufacturer;
+import org.domru.dto.CarManufacturerDto;
 import org.domru.repository.CarManufacturerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,20 +27,27 @@ public class CarManufacturerController {
   @Autowired
   CarManufacturerRepository carManufacturerRepository;
 
+  /**
+   * TODO.
+   * @return TODO
+   */
   @GetMapping("")
   @ApiOperation(value = "получить всех производителей")
-  public List<CarManufacturer> findAll() {
-    return carManufacturerRepository.findAll();
+  public List<CarManufacturerDto> findAll() {
+    return carManufacturerRepository.findAll()
+        .stream()
+        .map(CarManufacturerDto::toDto)
+        .collect(Collectors.toList());
   }
 
   @PostMapping("")
   @ApiOperation(value = "создать производителя")
-  public CarManufacturer create(
+  public CarManufacturerDto create(
       @RequestBody
-      CarManufacturer carManufacturer
+      CarManufacturerDto carManufacturer
   ) {
     carManufacturer.setId(null);
-    return carManufacturerRepository.save(carManufacturer);
+    return CarManufacturerDto.toDto(carManufacturerRepository.save(carManufacturer.fromDto()));
   }
 
   /**
@@ -50,13 +58,13 @@ public class CarManufacturerController {
    */
   @PutMapping("")
   @ApiOperation(value = "обновить производителя")
-  public CarManufacturer update(
+  public CarManufacturerDto update(
       @RequestBody
-          CarManufacturer carManufacturer,
+          CarManufacturerDto carManufacturer,
       HttpServletResponse response
   ) {
     if (carManufacturerRepository.findById(carManufacturer.getId()).isPresent()) {
-      return carManufacturerRepository.save(carManufacturer);
+      return CarManufacturerDto.toDto(carManufacturerRepository.save(carManufacturer.fromDto()));
     }
     response.setStatus(404);
     return null;
@@ -70,13 +78,13 @@ public class CarManufacturerController {
    */
   @DeleteMapping("")
   @ApiOperation(value = "удалить производителя")
-  public CarManufacturer delete(
+  public CarManufacturerDto delete(
       @RequestBody
-          CarManufacturer carManufacturer,
+          CarManufacturerDto carManufacturer,
       HttpServletResponse response
   ) {
     if (carManufacturerRepository.findById(carManufacturer.getId()).isPresent()) {
-      carManufacturerRepository.delete(carManufacturer);
+      carManufacturerRepository.delete(carManufacturer.fromDto());
       return carManufacturer;
     }
     response.setStatus(404);

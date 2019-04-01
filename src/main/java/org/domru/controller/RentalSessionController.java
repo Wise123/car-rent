@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.domru.model.RentalSession;
+import org.domru.dto.RentalSessionDto;
+
 import org.domru.repository.RentalSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,19 +30,34 @@ public class RentalSessionController {
   @Autowired
   RentalSessionRepository rentalSessionRepository;
 
+  /**
+   * TODO.
+   * @return TODO
+   */
   @GetMapping("")
   @ApiOperation(value = "получить все сессии аренды")
-  public List<RentalSession> findAll() {
-    return rentalSessionRepository.findAll();
+  public List<RentalSessionDto> findAll() {
+    return rentalSessionRepository.findAll()
+        .stream()
+        .map(RentalSessionDto::toDto)
+        .collect(Collectors.toList());
   }
 
+  /**
+   * TODO.
+   * @param carId TODO
+   * @return TODO
+   */
   @GetMapping("/findByFilters")
   @ApiOperation(value = "получить все сессии аренды по фильтрам")
-  public List<RentalSession> findByFilters(
+  public List<RentalSessionDto> findByFilters(
       @RequestParam
       @ApiParam(name = "carId", required = true, value = "идентфикатор автомобиля", example = "1")
         Long carId) {
-    return rentalSessionRepository.findByFilters(carId);
+    return rentalSessionRepository.findByFilters(carId)
+        .stream()
+        .map(RentalSessionDto::toDto)
+        .collect(Collectors.toList());
   }
 
   @GetMapping("/getAverageSessionLength")
@@ -67,12 +84,12 @@ public class RentalSessionController {
 
   @PostMapping("")
   @ApiOperation(value = "создать сессию аренды")
-  public RentalSession create(
+  public RentalSessionDto create(
       @RequestBody
-          RentalSession rentalSession
+          RentalSessionDto rentalSession
   ) {
     rentalSession.setId(null);
-    return rentalSessionRepository.save(rentalSession);
+    return RentalSessionDto.toDto(rentalSessionRepository.save(rentalSession.fromDto()));
   }
 
   /**
@@ -82,14 +99,14 @@ public class RentalSessionController {
    * @return TODO
    */
   @PutMapping("")
-  @ApiOperation(value = "обновить арендатора")
-  public RentalSession update(
+  @ApiOperation(value = "обновить сессию аренды")
+  public RentalSessionDto update(
       @RequestBody
-          RentalSession rentalSession,
+          RentalSessionDto rentalSession,
       HttpServletResponse response
   ) {
     if (rentalSessionRepository.findById(rentalSession.getId()).isPresent()) {
-      return rentalSessionRepository.save(rentalSession);
+      return RentalSessionDto.toDto(rentalSessionRepository.save(rentalSession.fromDto()));
     }
     response.setStatus(404);
     return null;
@@ -102,14 +119,14 @@ public class RentalSessionController {
    * @return TODO
    */
   @DeleteMapping("")
-  @ApiOperation(value = "удалить арендатора")
-  public RentalSession delete(
+  @ApiOperation(value = "удалить сессию аренды")
+  public RentalSessionDto delete(
       @RequestBody
-          RentalSession rentalSession,
+          RentalSessionDto rentalSession,
       HttpServletResponse response
   ) {
     if (rentalSessionRepository.findById(rentalSession.getId()).isPresent()) {
-      rentalSessionRepository.delete(rentalSession);
+      rentalSessionRepository.delete(rentalSession.fromDto());
       return rentalSession;
     }
     response.setStatus(404);

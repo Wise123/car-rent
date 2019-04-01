@@ -27,24 +27,22 @@ public class RentalSession {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate sessionStart;
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate sessionEnd;
 
   @ManyToOne
   @JoinColumn(name = "startRentPointId")
-  RentPoint startRentPoint;
+  private RentPoint startRentPoint;
 
   @ManyToOne
   @JoinColumn(name = "endRentPointId")
-  RentPoint endRentPoint;
+  private RentPoint endRentPoint;
 
   @ManyToOne
   @JoinColumn(name = "renterId")
-  Renter renter;
+  private Renter renter;
 
   @ManyToOne
   @JoinColumn(name = "carId")
-  Car car;
+  private Car car;
 }
