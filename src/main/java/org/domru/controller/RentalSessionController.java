@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.domru.dto.RentalSessionDto;
 
@@ -86,6 +87,7 @@ public class RentalSessionController {
   @ApiOperation(value = "создать сессию аренды")
   public RentalSessionDto create(
       @RequestBody
+      @Valid
           RentalSessionDto rentalSession
   ) {
     rentalSession.setId(null);
@@ -102,6 +104,7 @@ public class RentalSessionController {
   @ApiOperation(value = "обновить сессию аренды")
   public RentalSessionDto update(
       @RequestBody
+      @Valid
           RentalSessionDto rentalSession,
       HttpServletResponse response
   ) {

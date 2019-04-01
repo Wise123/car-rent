@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.domru.dto.CarModelDto;
 import org.domru.repository.CarModelRepository;
@@ -44,7 +45,8 @@ public class CarModelController {
   @ApiOperation(value = "создать модель")
   public CarModelDto create(
       @RequestBody
-      CarModelDto carModel
+      @Valid
+          CarModelDto carModel
   ) {
     carModel.setId(null);
     return CarModelDto.toDto(carModelRepository.save(carModel.fromDto()));
@@ -60,6 +62,7 @@ public class CarModelController {
   @ApiOperation(value = "обновить модель")
   public CarModelDto update(
       @RequestBody
+      @Valid
           CarModelDto carModel,
       HttpServletResponse response
   ) {

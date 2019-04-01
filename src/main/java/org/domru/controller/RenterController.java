@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.domru.dto.RenterDto;
 import org.domru.repository.RenterRepository;
@@ -44,6 +45,7 @@ public class RenterController {
   @ApiOperation(value = "создать арендатора")
   public RenterDto create(
       @RequestBody
+      @Valid
           RenterDto renter
   ) {
     renter.setId(null);
@@ -60,6 +62,7 @@ public class RenterController {
   @ApiOperation(value = "обновить арендатора")
   public RenterDto update(
       @RequestBody
+      @Valid
           RenterDto renter,
       HttpServletResponse response
   ) {

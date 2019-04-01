@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.domru.dto.RentPointDto;
 import org.domru.repository.RentPointRepository;
@@ -44,6 +45,7 @@ public class RentPointController {
   @ApiOperation(value = "создать точку")
   public RentPointDto create(
       @RequestBody
+      @Valid
           RentPointDto rentPoint
   ) {
     rentPoint.setId(null);
@@ -60,6 +62,7 @@ public class RentPointController {
   @ApiOperation(value = "обновить модель")
   public RentPointDto update(
       @RequestBody
+      @Valid
           RentPointDto rentPoint,
       HttpServletResponse response
   ) {

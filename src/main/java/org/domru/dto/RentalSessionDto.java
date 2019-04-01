@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,13 +21,17 @@ import org.domru.model.RentalSession;
 @EqualsAndHashCode
 public class RentalSessionDto {
   private Long id;
+  @NotNull(message = "Дата начала проката не должна быть пустой")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate sessionStart;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
   private LocalDate sessionEnd;
+  @NotNull(message = "Точка начала проката не должна быть пустой")
   private RentPointDto startRentPoint;
   private RentPointDto endRentPoint;
+  @NotNull(message = "Арендатор не должен быть пустым")
   private RenterDto renter;
+  @NotNull(message = "Автомобиль не должен быть пустым")
   private CarDto car;
 
   /**
