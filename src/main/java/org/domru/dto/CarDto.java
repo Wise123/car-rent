@@ -21,7 +21,7 @@ public class CarDto {
   @NotNull(message = "Регистрационный номер не может быть пустым")
   @Pattern(
       message = "Регистрационный номер не соответствует шаблону",
-      regexp = "^[АВЕКМНОРСТУХ]\\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}\\d{2,3}$")
+      regexp = "^[АВЕКМНОРСТУХ]\\d{3}(?<!000)[АВЕКМНОРСТУХ]{2}RUS\\d{2,3}$")
   private String regNum;
   @NotNull(message = "Модель автомобиля не может быть пустой")
   private CarModelDto carModel;
