@@ -1,6 +1,10 @@
 package util;
 
+import org.domru.dto.CarManufacturerDto;
 import org.domru.dto.RenterDto;
+import org.domru.model.Car;
+import org.domru.model.CarManufacturer;
+import org.domru.model.CarModel;
 import org.domru.model.Renter;
 
 import java.util.Collections;
@@ -26,6 +30,25 @@ public class DummyObjects {
 
   public static List<RenterDto> getDummyRenterDtoList() {
     return Collections.singletonList(getDummyRenterDto());
+  }
+
+  public static CarManufacturer getDummyCarManufacturer(){
+    return new CarManufacturer(
+        1L,
+        "test"
+    );
+  }
+
+  public static List<CarManufacturer> getDummyCarmanufacturerList() {
+    return Collections.singletonList(getDummyCarManufacturer());
+  }
+
+  public static CarManufacturerDto getDummyCarManufacturerDto() {
+    return CarManufacturerDto.toDto(getDummyCarManufacturer());
+  }
+
+  public static List<CarManufacturerDto> getDummyCarManufacturerDtoList() {
+    return Collections.singletonList(getDummyCarManufacturerDto());
   }
 
   public static String getLongString() {
