@@ -3,6 +3,8 @@ package util;
 import org.domru.dto.*;
 import org.domru.model.*;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -106,6 +108,30 @@ public class DummyObjects {
     return Collections.singletonList(getDummyRentPointDto());
   }
 
+  public static RentalSession getDummyRentalSession(){
+    return new RentalSession(
+        1L,
+        LocalDate.of(2019, 1, 1),
+        null,
+        getDummyRentPoint(),
+        getDummyRentPoint(),
+        getDummyRenter(),
+        getDummyCar()
+    );
+  }
+
+  public static List<RentalSession> getDummyRentalSessionList() {
+    return Collections.singletonList(getDummyRentalSession());
+  }
+
+  public static RentalSessionDto getDummyRentalSessionDto() {
+    return RentalSessionDto.toDto(getDummyRentalSession());
+  }
+
+  public static List<RentalSessionDto> getDummyRentalSessionDtoList() {
+    return Collections.singletonList(getDummyRentalSessionDto());
+  }
+
   public static String getLongString() {
     String longString = "";
     for (int i = 0; i < 27; i++) {
@@ -113,4 +139,5 @@ public class DummyObjects {
     }
     return longString;
   }
+  public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 }
